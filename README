@@ -1,0 +1,6 @@
+This project contains resin-ant-plugin
+
+Directory examples contains sample ant xml files
+Directory src contains source code
+Directory target contains current compiled snapshot
+
