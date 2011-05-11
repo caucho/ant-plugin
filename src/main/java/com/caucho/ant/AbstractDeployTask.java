@@ -253,8 +253,26 @@ public abstract class AbstractDeployTask extends Task
 
     if (getMessage() != null) {
       args.add("-m");
-      args.add(getMessage());
+      args.add(quote(getMessage()));
     }
+  }
+
+  private String quote(String message)
+  {
+    StringBuilder builder = new StringBuilder();
+
+    if (message.charAt(0) != '\'' && message.charAt(0) != '"') {
+      builder.append('\'');
+    }
+
+    builder.append(message);
+
+    char lastChar = message.charAt(message.length() - 1);
+    if (lastChar != '\'' && lastChar != '"') {
+      builder.append('\'');
+    }
+
+    return builder.toString();
   }
 
   protected abstract void fillArgs(List<String> args);
