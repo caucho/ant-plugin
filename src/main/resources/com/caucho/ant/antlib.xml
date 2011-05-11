@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<!--
+   - Copyright 2011 Caucho Technology
+   -
+   - Licensed under the Apache License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   -
+   - http://www.apache.org/licenses/LICENSE-2.0
+   -
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+   -
+-->
+
+<antlib>
+  <!-- Tasks -->
+  <taskdef name="jspc" classname="com.caucho.ant.Jspc"/>
+
+  <taskdef name="upload-war"
+           classname="com.caucho.ant.DeployTask"/>
+  <taskdef name="deploy"
+           classname="com.caucho.ant.DeployTask"/>
+
+  <taskdef name="copy-tag" classname="com.caucho.ant.DeployCopyTask"/>
+  <taskdef name="deploy-copy" classname="com.caucho.ant.DeployCopyTask"/>
+
+  <taskdef name="delete-tag"
+           classname="com.caucho.ant.UndeployTask"/>
+  <taskdef name="undeploy"
+           classname="com.caucho.ant.UndeployTask"/>
+
+  <taskdef name="deploy-list"
+           classname="com.caucho.ant.DeployListTask"/>
+  <taskdef name="query-tags"
+           classname="com.caucho.ant.DeployListTask"/>
+</antlib>
