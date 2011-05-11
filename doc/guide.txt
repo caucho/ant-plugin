@@ -1,0 +1,148 @@
+User Guide
+
+Resin ant plugin automates deployment tasks.
+
+Plugin provides the following tasks
+
+deploy
+undeploy
+deploy-list
+deploy-copy
+
+
+Deploying remotely to Resin requires Resin remote deployment module to be
+enabled. Please refer to the following resin.xml file for configuration detail.
+
+<resin xmlns="http://caucho.com/ns/resin"
+       xmlns:resin="urn:java:com.caucho.resin">
+  <cluster id="">
+
+    <!--
+       - Configures authentication mechanism
+    -->
+    <resin:AdminAuthenticator password-digest="none">
+      <resin:user name="foo" password="test"/>
+    </resin:AdminAuthenticator>
+
+    <!--
+       - Starts Remote Administration Module
+    -->
+    <resin:RemoteAdminService/>
+
+    <!--
+       - Starts DeployService
+    -->
+    <resin:DeployService/>
+
+    <server id="production">
+      <http port="8080"/> <!-- deployments are accepted on standard HTTP port-->
+    </server>
+
+    <host id="">
+      <web-app-deploy path="webapps"/> <!--exploded web archives directory-->
+    </host>
+  </cluster>
+</resin>
+
+Resin Ant Task Common configuration attributes
+All Ant tasks require the following attributes supplied
+
+resinHome - sets ResinHome that contains the libraries that will be used
+for remote deployment. Version of Resin at resinHome location should match
+version of Resin deployed on remote machine.
+
+server - sets the dns name or ip of the remote server to connect to.
+
+port - sets the port of the remote server.
+
+user - sets user-name to use for authentication.
+
+password - sets password to use for authentication.
+
+logLevel - sets the log level (finest, finer, fine, ...)
+
+
+Task deploy
+------------------------------------------------------------------------------
+This task deploys a war file to a Resin server
+------------------------------------------------------------------------------
+Attribute           | Description
+------------------------------------------------------------------------------
+warFile             | path to the war file to deploy
+context             | context to deploy the app to (optional)
+host                | virtual host
+stage               | stage
+version             | war file version
+------------------------------------------------------------------------------
+
+see examples/ant-deploy.xml for reference
+
+
+Task deploy-list
+------------------------------------------------------------------------------
+This task lists deployed on Resin instance applications
+
+------------------------------------------------------------------------------
+Attribute           | Description
+------------------------------------------------------------------------------
+context             | context (check if the app is deployed)
+host                | virtual host
+stage               | stage
+version             | war file version
+pattern             | Explicit query pattern for entire tags in the repository
+------------------------------------------------------------------------------
+
+At least one pattern (either stage, host, context, version, or pattern) must be
+given.
+
+see examples/ant-deploy-list.xml for reference
+
+Task deploy-copy
+------------------------------------------------------------------------------
+This task copies an application from one tag to another. This can be useful
+when moving an application from one context to another.
+
+------------------------------------------------------------------------------
+Attribute           | Description
+------------------------------------------------------------------------------
+sourceContext	    | context root of the source tag (required)
+sourceHost	    | virtual host of the source tag
+sourceStage	    | stage of the source tag
+source-version	    | version of the source tag
+targetContext	    | context of the target tag (required)
+targetHost	    | virtual host of the target tag
+targetStage         | stage of the target tag
+targetVersion	    | version of the target tag
+------------------------------------------------------------------------------
+
+see examples/ant-deploy-copy.xml for reference
+
+Task undeploy
+------------------------------------------------------------------------------
+This task undeploys an application
+
+------------------------------------------------------------------------------
+Attribute           | Description
+------------------------------------------------------------------------------
+context	            | context root of the tag to be deleted (*)
+host	            | virtual host of the tag to be deleted
+stage	            | stage of the tag to be deleted
+version	            | version of the tag to be deleted
+tag	            | explicit tag to be deleted (*)
+------------------------------------------------------------------------------
+*: Either the context or explicit tag must be set
+
+
+Tag: is a string that uniquely identifies the application with the following
+structure: [stage]/webapp/[host]/[context]
+
+stage - is the stage of Resin server. It defalts to 'production' but can be set
+to any string value e.g. 'preview'.
+
+host - is the host id from <host id attribute of resin.xml. It defaults to a
+value of 'default'
+
+context - is the web application's context.
+
+Tag example production/webapp/default/bar
+
